@@ -45,6 +45,15 @@
                     "name": "Rotate",
                     "type": "Value",
                     "id": "34100a7e-8e93-4909-b6cd-49726a9b0b3b",
+                    "expectedControlType": "Delta",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Zoom",
+                    "type": "Value",
+                    "id": "590ee19e-a330-498e-8618-f133254e6d6a",
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
@@ -161,6 +170,17 @@
                     "action": "Rotate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "0a188d74-e1fe-45f6-b2d2-a2e6fee0041f",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

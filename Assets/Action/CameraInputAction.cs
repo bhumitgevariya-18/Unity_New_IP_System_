@@ -67,6 +67,15 @@ public partial class @CameraInputAction: IInputActionCollection2, IDisposable
                     ""name"": ""Rotate"",
                     ""type"": ""Value"",
                     ""id"": ""34100a7e-8e93-4909-b6cd-49726a9b0b3b"",
+                    ""expectedControlType"": ""Delta"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""590ee19e-a330-498e-8618-f133254e6d6a"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -183,6 +192,17 @@ public partial class @CameraInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a188d74-e1fe-45f6-b2d2-a2e6fee0041f"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -196,6 +216,7 @@ public partial class @CameraInputAction: IInputActionCollection2, IDisposable
         m_Camera_Up = m_Camera.FindAction("Up", throwIfNotFound: true);
         m_Camera_Down = m_Camera.FindAction("Down", throwIfNotFound: true);
         m_Camera_Rotate = m_Camera.FindAction("Rotate", throwIfNotFound: true);
+        m_Camera_Zoom = m_Camera.FindAction("Zoom", throwIfNotFound: true);
     }
 
     ~@CameraInputAction()
@@ -267,6 +288,7 @@ public partial class @CameraInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Camera_Up;
     private readonly InputAction m_Camera_Down;
     private readonly InputAction m_Camera_Rotate;
+    private readonly InputAction m_Camera_Zoom;
     public struct CameraActions
     {
         private @CameraInputAction m_Wrapper;
@@ -276,6 +298,7 @@ public partial class @CameraInputAction: IInputActionCollection2, IDisposable
         public InputAction @Up => m_Wrapper.m_Camera_Up;
         public InputAction @Down => m_Wrapper.m_Camera_Down;
         public InputAction @Rotate => m_Wrapper.m_Camera_Rotate;
+        public InputAction @Zoom => m_Wrapper.m_Camera_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_Camera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -300,6 +323,9 @@ public partial class @CameraInputAction: IInputActionCollection2, IDisposable
             @Rotate.started += instance.OnRotate;
             @Rotate.performed += instance.OnRotate;
             @Rotate.canceled += instance.OnRotate;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
         }
 
         private void UnregisterCallbacks(ICameraActions instance)
@@ -319,6 +345,9 @@ public partial class @CameraInputAction: IInputActionCollection2, IDisposable
             @Rotate.started -= instance.OnRotate;
             @Rotate.performed -= instance.OnRotate;
             @Rotate.canceled -= instance.OnRotate;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
         }
 
         public void RemoveCallbacks(ICameraActions instance)
@@ -343,5 +372,6 @@ public partial class @CameraInputAction: IInputActionCollection2, IDisposable
         void OnUp(InputAction.CallbackContext context);
         void OnDown(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
     }
 }
