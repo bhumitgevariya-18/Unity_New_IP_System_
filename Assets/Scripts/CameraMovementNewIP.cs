@@ -12,12 +12,16 @@ public class CameraMovementNewIP : MonoBehaviour
 {
     float moveSpeed = 3;
     float deltaHeight;
+    float minLength = -55f;
+    float maxLength = 85f;
     float minHeight = 0.5f;
-    float maxHeight = 10f;
+    float maxHeight = 8f;
+    float minWidth = -65f;
+    float maxWidth = 80f;
     Vector2 pos;
     Vector2 rotation;
     Camera playerCam;
-    public float zoomSpeed = 5f;
+    public float zoomResponse = 5f;
     float minZoom = 10f;
     float maxZoom = 50f;
     float currentZoom;
@@ -38,7 +42,8 @@ public class CameraMovementNewIP : MonoBehaviour
         //transform.position += newPos * moveSpeed * Time.deltaTime;
         transform.Translate(newPos * moveSpeed * Time.deltaTime);
         
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, minHeight, maxHeight), transform.position.z);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, minLength, maxLength), Mathf.Clamp(transform.position.y, minHeight, maxHeight),
+         Mathf.Clamp(transform.position.z, minWidth, maxWidth));
 
         if (mouseRightbutton)
         {
@@ -52,7 +57,7 @@ public class CameraMovementNewIP : MonoBehaviour
         if (context.performed)
         {
             Vector2 zoomValue = context.ReadValue<Vector2>();
-            currentZoom += -zoomValue.y * zoomSpeed;
+            currentZoom += -zoomValue.y * zoomResponse;
             currentZoom = Mathf.Clamp(currentZoom, minZoom, maxZoom);
             playerCam.fieldOfView = currentZoom;
         }
