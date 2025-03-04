@@ -6,37 +6,45 @@ using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Composites;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.UIElements;
 
 public class CameraMovementNewIP : MonoBehaviour
 {
     float moveSpeed = 3;
-    float cameraHeight;
+    float deltaHeight;
+    float minHeight = 0.5f;
+    float maxHeight = 10f;
     Vector2 pos;
-    float rot;
+    Vector2 rotation;
     Camera playerCam;
     public float zoomSpeed = 5f;
     float minZoom = 10f;
     float maxZoom = 50f;
+    float currentZoom;
+    bool mouseRightbutton;
+    float rotateValue = 50f;
+    CameraInputAction cameraInputAction;
 
-    private float currentZoom;
-    private CameraInputAction cameraInputAction;
-
-    void Awake()
+    void Start()
     {
         cameraInputAction = new CameraInputAction();
-    }
-
-    private void Start()
-    {
         playerCam = GetComponent<Camera>();
         currentZoom = playerCam.fieldOfView;
     }
 
     void Update()
     {
-        Vector3 newPos = new Vector3(pos.x, cameraHeight, pos.y);
-        transform.position += newPos * moveSpeed * Time.deltaTime;
-        transform.Rotate(0, rot, 0, Space.World);
+        Vector3 newPos = new Vector3(pos.x, deltaHeight, pos.y);
+        //transform.position += newPos * moveSpeed * Time.deltaTime;
+        transform.Translate(newPos * moveSpeed * Time.deltaTime);
+        
+        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, minHeight, maxHeight), transform.position.z);
+
+        if (mouseRightbutton)
+        {
+            Vector3 newRotation = new Vector3(-rotation.y, rotation.x, 0);
+            transform.eulerAngles += newRotation * rotateValue * Time.deltaTime;
+        }
     }
 
     public void Zoom(InputAction.CallbackContext context)
@@ -52,7 +60,23 @@ public class CameraMovementNewIP : MonoBehaviour
 
     public void Rotate(InputAction.CallbackContext context)
     {
-        rot = context.ReadValue<float>();
+        if (context.performed)
+        {
+            rotation = context.ReadValue<Vector2>();
+        }
+    }
+
+    public void MouseRightButton(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            mouseRightbutton= true;
+        }
+        else
+        {
+            mouseRightbutton= false;
+        }
+        
     }
 
     public void Movement(InputAction.CallbackContext context)
@@ -63,22 +87,23 @@ public class CameraMovementNewIP : MonoBehaviour
     {
         if(context.performed)
         {
-            cameraHeight += 0.1f;
+            deltaHeight += 0.1f;
         }
         else
         {
-            cameraHeight = 0;
+            deltaHeight = 0;
         }
+        
     }
     public void Down(InputAction.CallbackContext context)
     {
         if(context.performed)
         {
-            cameraHeight -= 0.1f;
+            deltaHeight -= 0.1f;
         }
         else
         {
-            cameraHeight = 0;
+            deltaHeight = 0;
         }
     }
 
