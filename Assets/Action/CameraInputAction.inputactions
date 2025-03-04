@@ -150,9 +150,20 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Button With One Modifier",
-                    "id": "6af4d664-240c-4bc0-82b5-50c451fc2817",
-                    "path": "ButtonWithOneModifier",
+                    "name": "",
+                    "id": "0a188d74-e1fe-45f6-b2d2-a2e6fee0041f",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "68e555fe-1716-4068-b23e-7064d53df66f",
+                    "path": "OneModifier",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -161,8 +172,8 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Modifier",
-                    "id": "ed876b75-3913-497f-adfa-1e3b682acaba",
+                    "name": "modifier",
+                    "id": "f12cc7d5-c5bb-4217-8cd2-d0cbb78d9042",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
@@ -172,15 +183,15 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "0a188d74-e1fe-45f6-b2d2-a2e6fee0041f",
-                    "path": "",
+                    "name": "binding",
+                    "id": "6a033790-79b2-47e6-a307-fcfd35fcdbcf",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Zoom",
+                    "action": "Rotate",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
                 }
             ]
         }
