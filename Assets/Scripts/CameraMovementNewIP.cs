@@ -10,117 +10,107 @@ using UnityEngine.UIElements;
 
 public class CameraMovementNewIP : MonoBehaviour
 {
+    [SerializeField] private InputController inputController; 
     float moveSpeed = 3;
     float deltaHeight;
-    float minLength = -55f;
-    float maxLength = 85f;
+    float minLength = -45f;
+    float maxLength = 75f;
     float minHeight = 0.5f;
     float maxHeight = 8f;
-    float minWidth = -65f;
-    float maxWidth = 80f;
-    Vector2 pos;
+    float minWidth = -55f;
+    float maxWidth = 70f;
     Vector2 rotation;
     Camera playerCam;
     public float zoomResponse = 5f;
     float minZoom = 10f;
     float maxZoom = 50f;
     float currentZoom;
-    bool mouseRightbutton;
     float rotateValue = 50f;
-    CameraInputAction cameraInputAction;
+
+    void OnEnable()
+    {
+        inputController.OnMovement += Movement;
+        inputController.OnRun += Run;
+        inputController.OnWalk += Walk;
+        inputController.OnUP += Up;
+        inputController.OnDown += Down;
+        inputController.OnNoUpDown += StableHeight;
+        inputController.OnRotate += Rotate;
+        inputController.OnZoom += Zoom;
+    }
 
     void Start()
     {
-        cameraInputAction = new CameraInputAction();
         playerCam = GetComponent<Camera>();
         currentZoom = playerCam.fieldOfView;
     }
 
     void Update()
+    {    
+        Movement();
+        Zoom();
+        Rotate();
+        Up();
+        Down();
+    }
+
+    public void Zoom()
     {
-        Vector3 newPos = new Vector3(pos.x, deltaHeight, pos.y);
-        //transform.position += newPos * moveSpeed * Time.deltaTime;
+        currentZoom += -InputController.zoomValue.y * zoomResponse;
+        currentZoom = Mathf.Clamp(currentZoom, minZoom, maxZoom);
+        playerCam.fieldOfView = currentZoom;
+    }
+
+    public void Rotate()
+    {
+        Vector3 newRotation = new Vector3(-rotation.y, rotation.x, 0);
+        transform.eulerAngles += newRotation * rotateValue * Time.deltaTime;
+    }
+            
+    void Movement()
+    {
+        Vector3 newPos = new Vector3(InputController.pos.x, deltaHeight, InputController.pos.y);
+
         transform.Translate(newPos * moveSpeed * Time.deltaTime);
-        
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, minLength, maxLength), Mathf.Clamp(transform.position.y, minHeight, maxHeight),
-         Mathf.Clamp(transform.position.z, minWidth, maxWidth));
+        Mathf.Clamp(transform.position.z, minWidth, maxWidth));
 
-        if (mouseRightbutton)
-        {
-            Vector3 newRotation = new Vector3(-rotation.y, rotation.x, 0);
-            transform.eulerAngles += newRotation * rotateValue * Time.deltaTime;
-        }
     }
-
-    public void Zoom(InputAction.CallbackContext context)
+    public void Up()
     {
-        if (context.performed)
-        {
-            Vector2 zoomValue = context.ReadValue<Vector2>();
-            currentZoom += -zoomValue.y * zoomResponse;
-            currentZoom = Mathf.Clamp(currentZoom, minZoom, maxZoom);
-            playerCam.fieldOfView = currentZoom;
-        }
+        deltaHeight += 0.1f;
     }
 
-    public void Rotate(InputAction.CallbackContext context)
+    public void Down()
     {
-        if (context.performed)
-        {
-            rotation = context.ReadValue<Vector2>();
-        }
+        deltaHeight -= 0.1f;
+    }
+    
+    public void StableHeight()
+    {
+        deltaHeight = 0;
     }
 
-    public void MouseRightButton(InputAction.CallbackContext context)
+    void Run()
     {
-        if(context.performed)
-        {
-            mouseRightbutton= true;
-        }
-        else
-        {
-            mouseRightbutton= false;
-        }
-        
+        moveSpeed = 10f;
     }
 
-    public void Movement(InputAction.CallbackContext context)
+    void Walk()
     {
-        pos = context.ReadValue<Vector2>();
-    }
-    public void Up(InputAction.CallbackContext context)
-    {
-        if(context.performed)
-        {
-            deltaHeight += 0.1f;
-        }
-        else
-        {
-            deltaHeight = 0;
-        }
-        
-    }
-    public void Down(InputAction.CallbackContext context)
-    {
-        if(context.performed)
-        {
-            deltaHeight -= 0.1f;
-        }
-        else
-        {
-            deltaHeight = 0;
-        }
+        moveSpeed = 3f;
     }
 
-    public void Run(InputAction.CallbackContext context)
+    private void OnDisable()
     {
-        if (context.performed)
-        {
-            moveSpeed = 10f;
-        }
-        else
-        {
-            moveSpeed = 3f;
-        }
+        inputController.OnMovement -= Movement;
+        inputController.OnRun -= Run;
+        inputController.OnWalk -= Walk;
+        inputController.OnUP -= Up;
+        inputController.OnDown -= Down;
+        inputController.OnNoUpDown -= StableHeight;
+        inputController.OnRotate -= Rotate;
+        inputController.OnZoom -= Zoom;
     }
+
 }
