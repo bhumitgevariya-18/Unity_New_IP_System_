@@ -6,7 +6,7 @@ using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Composites;
 using UnityEngine.InputSystem.Controls;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class CameraMovementNewIP : MonoBehaviour
 {
@@ -20,11 +20,12 @@ public class CameraMovementNewIP : MonoBehaviour
     float minWidth = -55f;
     float maxWidth = 70f;
     Camera playerCam;
+    public Slider slider;   
     public float zoomResponse = 5f;
     float minZoom = 10f;
     float maxZoom = 50f;
     float currentZoom;
-    float rotateValue = 50f;
+    float rotateOffset = 100f;
 
     void OnEnable()
     {
@@ -62,6 +63,7 @@ public class CameraMovementNewIP : MonoBehaviour
 
     public void Rotate()
     {
+        float rotateValue = slider.value * rotateOffset;
         Vector3 newRotation = new Vector3(-InputController.rotation.y, InputController.rotation.x, 0);
         transform.eulerAngles += newRotation * rotateValue * Time.deltaTime;
     }
