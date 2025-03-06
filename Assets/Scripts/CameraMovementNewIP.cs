@@ -19,7 +19,6 @@ public class CameraMovementNewIP : MonoBehaviour
     float maxHeight = 8f;
     float minWidth = -55f;
     float maxWidth = 70f;
-    Vector2 rotation;
     Camera playerCam;
     public float zoomResponse = 5f;
     float minZoom = 10f;
@@ -63,7 +62,7 @@ public class CameraMovementNewIP : MonoBehaviour
 
     public void Rotate()
     {
-        Vector3 newRotation = new Vector3(-rotation.y, rotation.x, 0);
+        Vector3 newRotation = new Vector3(-InputController.rotation.y, InputController.rotation.x, 0);
         transform.eulerAngles += newRotation * rotateValue * Time.deltaTime;
     }
             
