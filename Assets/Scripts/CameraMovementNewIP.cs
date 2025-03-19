@@ -13,7 +13,7 @@ public class CameraMovementNewIP : MonoBehaviour
     [SerializeField] private InputController inputController; 
     float moveSpeed = 3;
     float deltaHeight;
-    float minLength = -45f;
+    float minLength = -55f;
     float maxLength = 75f;
     float minHeight = 0.5f;
     float maxHeight = 8f;
