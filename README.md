@@ -1,3 +1,5 @@
+![Image](https://github.com/user-attachments/assets/6e56bd1e-7d6e-4221-8f26-2fa56b63c3e5)
+
 # Unity Camera Controller
 
 A flexible Unity project focused on advanced camera movement and input customization. This project demonstrates a modular camera system with runtime key rebinding, smooth movement, zoom, and rotation controls, suitable for strategy, simulation, or sandbox games.
